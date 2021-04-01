@@ -1,0 +1,67 @@
+﻿@page "/stonks"
+
+@using FormulaOneStonks.Data
+@using FormulaOneStonks.Models
+@using BlazorTable
+@inject FormulaOneService service
+
+<h1>Fantasy F1 Stonks</h1>
+
+@if (drivers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Table TableItem="Player" Items="drivers" PageSize="15" ColumnReorder="true">
+        <Column TableItem="Player" Title="Name" Field="@(d => d.display_name)" Sortable="true" Filterable="true"  />
+        <Column TableItem="Player" Title="Team" Field="@(d => d.team_abbreviation)" Sortable="true" Filterable="true">
+            <CustomIFilters>
+                <CustomSelect TableItem="Player">
+                    <CustomSelectOption Key="MER" Value="@("MER")" />
+                    <CustomSelectOption Key="RED" Value="@("RED")" />
+                    <CustomSelectOption Key="AST" Value="@("AST")" />
+                    <CustomSelectOption Key="MCL" Value="@("MCL")" />
+                    <CustomSelectOption Key="ALP" Value="@("ALP")" />
+                    <CustomSelectOption Key="FER" Value="@("FER")" />
+                    <CustomSelectOption Key="ALF" Value="@("ALF")" />
+                    <CustomSelectOption Key="ALT" Value="@("ALT")" />
+                    <CustomSelectOption Key="WIL" Value="@("WIL")" />
+                    <CustomSelectOption Key="HAA" Value="@("HAA")" />
+                </CustomSelect>
+            </CustomIFilters>
+        </Column>
+        <Column TableItem="Player" Title="Type" Field="@(d => d.type)" Sortable="true" Filterable="true">
+            <CustomIFilters>
+                <CustomSelect TableItem="Player">
+                    <CustomSelectOption Key="Constructor" Value="@("Constructor")" />
+                    <CustomSelectOption Key="Driver" Value="@("Driver")" />
+                </CustomSelect>
+            </CustomIFilters>
+        </Column>
+        <Column TableItem="Player" Title="Points" Field="@(d => d.season_score)" Sortable="true" Filterable="true" Align="Align.Right" />
+        <Column TableItem="Player" Title="Price" Field="@(d => d.price)" Sortable="true" Filterable="true" Align="Align.Right">
+            <Template>
+                @string.Format("${0}m", context.price)
+            </Template>
+        </Column>
+        <Column TableItem="Player" Title="Points per Million" Field="@(d => d.points_per_million)" Sortable="true" Filterable="true" Align="Align.Right" />
+        <Column TableItem="Player" Title="Weekly Price Change" Field="@(d => d.rounded_weekly_price_change)" Sortable="true" Filterable="true" Align="Align.Right" />
+        <Column TableItem="Player" Title="Sentiment" Field="@(d => d.sentiment)" Sortable="true" Filterable="true" Align="Align.Right">
+            <Template>
+                @string.Format("{0}%", context.sentiment)
+            </Template>
+        </Column>
+        <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" PageSizes="new List<int>{15, 30}" />
+    </Table>
+}
+
+@code {
+    private Player[] drivers;
+    private string sentimentClass;
+
+    protected override async Task OnInitializedAsync()
+    {
+        drivers = await service.GetDriversAsync();
+    }
+}
