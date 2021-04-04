@@ -14,6 +14,7 @@
 else
 {
     <Table TableItem="Player" Items="drivers" PageSize="15" ColumnReorder="true">
+        <Column TableItem="Player" ImageUrl="@(d => d.headshot.player_list)"/> 
         <Column TableItem="Player" Title="Name" Field="@(d => d.display_name)" Sortable="true" Filterable="true"  />
         <Column TableItem="Player" Title="Team" Field="@(d => d.team_abbreviation)" Sortable="true" Filterable="true">
             <CustomIFilters>
