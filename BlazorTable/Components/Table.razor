@@ -198,7 +198,7 @@
                                             {
                                                 <td @key="column"
                                                 style="@(column.Align > 0 ? $"text-align: {column.Align};" : "")"
-                                                class="@(column.Class)">
+                                                class="@column.ColumnClass(item) @(column.Class)">
 
                                                 @if (IsEditMode && column.EditTemplate != null)
                                                     @column.EditTemplate(item)

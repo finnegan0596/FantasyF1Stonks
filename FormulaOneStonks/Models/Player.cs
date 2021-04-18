@@ -40,14 +40,6 @@ namespace FormulaOneStonks.Models
             }
         }
 
-        public double rounded_weekly_price_change
-        {
-            get
-            {
-                return Math.Round(weekly_price_change, 1);
-            }
-        }
-
         public object status { get; set; }
         public bool injured { get; set; }
         public object injury_type { get; set; }
@@ -79,15 +71,23 @@ namespace FormulaOneStonks.Models
         public Profile_Image profile_image { get; set; }
         public Misc_Image misc_image { get; set; }
 
+        public double price_change { // sometimes the api returns the price in the weekly price change. IDK why. Workaround
+            get 
+            {
+                return weekly_price_change == price ? 0 : Math.Round(weekly_price_change, 1); ;    
+            } 
+        }
         #region css
 
         public string sentiment_class
         {
             get
             {
-                if (sentiment < 0)
+                if (sentiment == 0)
+                    return null;
+                if (sentiment <= -50)
                     return "table-bad";
-                if (sentiment > 0)
+                if (sentiment >= 50)
                     return "table-good";
                 return null;
             }
@@ -97,9 +97,36 @@ namespace FormulaOneStonks.Models
         {
             get
             {
-                if (rounded_weekly_price_change < 0)
+                if (price_change < 0)
                     return "table-bad";
-                if (rounded_weekly_price_change > 0)
+                if (price_change > 0)
+                    return "table-good";
+                return null;
+            }
+        }
+
+
+        public string qualification_streak_class
+        { 
+            get
+            {
+                bool isParseSuccess = Int32.TryParse(streak_events_progress.top_ten_in_a_row_qualifying_progress, out int streak);
+                if (is_constructor && isParseSuccess && streak == 2)
+                    return "table-good";
+                if(!is_constructor && isParseSuccess && streak == 4)
+                    return "table-good";
+                return null;
+            }
+        }
+
+        public string race_streak_class
+        {
+            get
+            {
+                bool isParseSuccess = Int32.TryParse(streak_events_progress.top_ten_in_a_row_race_progress, out int streak);
+                if (is_constructor && isParseSuccess && streak == 2)
+                    return "table-good";
+                if (!is_constructor && isParseSuccess && streak == 4)
                     return "table-good";
                 return null;
             }

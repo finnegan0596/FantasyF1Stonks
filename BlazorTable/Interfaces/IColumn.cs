@@ -179,5 +179,7 @@ namespace BlazorTable
         string Render(TableItem item);
 
         string RenderImage(TableItem item);
+
+        string ColumnClass(TableItem item);
     }
 }
