@@ -72,11 +72,34 @@ namespace FormulaOneStonks.Models
         public Misc_Image misc_image { get; set; }
 
         public double price_change { // sometimes the api returns the price in the weekly price change. IDK why. Workaround
-            get 
+            get
             {
-                return weekly_price_change == price ? 0 : Math.Round(weekly_price_change, 1); ;    
-            } 
+                return weekly_price_change == price ? 0 : Math.Round(weekly_price_change, 1); ;
+            }
         }
+
+        public int qualification_streak
+        {
+            get
+            {
+                bool isParseSuccess = Int32.TryParse(streak_events_progress.top_ten_in_a_row_qualifying_progress, out int streak);
+                if (isParseSuccess)
+                    return streak;
+                return 0;
+            }
+        }
+
+        public int race_streak
+        {
+            get
+            {
+                bool isParseSuccess = Int32.TryParse(streak_events_progress.top_ten_in_a_row_race_progress, out int streak);
+                if (isParseSuccess)
+                    return streak;
+                return 0;
+            }
+        }
+        
         #region css
 
         public string sentiment_class
@@ -110,10 +133,9 @@ namespace FormulaOneStonks.Models
         { 
             get
             {
-                bool isParseSuccess = Int32.TryParse(streak_events_progress.top_ten_in_a_row_qualifying_progress, out int streak);
-                if (is_constructor && isParseSuccess && streak == 2)
+                if (is_constructor && qualification_streak == 2)
                     return "table-good";
-                if(!is_constructor && isParseSuccess && streak == 4)
+                if(!is_constructor && qualification_streak == 4)
                     return "table-good";
                 return null;
             }
@@ -123,10 +145,9 @@ namespace FormulaOneStonks.Models
         {
             get
             {
-                bool isParseSuccess = Int32.TryParse(streak_events_progress.top_ten_in_a_row_race_progress, out int streak);
-                if (is_constructor && isParseSuccess && streak == 2)
+                if (is_constructor && race_streak == 2)
                     return "table-good";
-                if (!is_constructor && isParseSuccess && streak == 4)
+                if (!is_constructor && race_streak == 4)
                     return "table-good";
                 return null;
             }

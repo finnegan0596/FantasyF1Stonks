@@ -53,8 +53,8 @@ else
             @string.Format("{0}%", context.sentiment)
         </Template>
     </Column>
-    <Column TableItem="Player" Title="Qualification Streak" Field="@(d => d.streak_events_progress.top_ten_in_a_row_qualifying_progress)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.qualification_streak_class)" />
-    <Column TableItem="Player" Title="Race Streak" Field="@(d => d.streak_events_progress.top_ten_in_a_row_race_progress)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.race_streak_class)" />
+    <Column TableItem="Player" Title="Qualification Streak" Field="@(d => d.qualification_streak)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.qualification_streak_class)" />
+    <Column TableItem="Player" Title="Race Streak" Field="@(d => d.race_streak)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.race_streak_class)" />
     <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" PageSizes="new List<int>{15, 30}" />
 </Table>
 }
