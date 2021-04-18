@@ -325,5 +325,13 @@ namespace BlazorTable
         /// Save compiled renderCompiled property to avoid repeated Compile() calls
         /// </summary>
         private Func<TableItem, object> renderCompiled;
+
+        [Parameter]
+        public Func<TableItem, string> TableColumnClass { get; set; }
+
+        public string ColumnClass(TableItem item)
+        {
+            return TableColumnClass?.Invoke(item);
+        }
     }
 }
