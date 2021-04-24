@@ -46,8 +46,14 @@ else
             @string.Format("${0}m", context.price)
         </Template>
     </Column>
-    <Column TableItem="Player" Title="Points per Million" Field="@(d => d.points_per_million)" Sortable="true" Filterable="true" Align="Align.Right"/>
-    <Column TableItem="Player" Title="Weekly Price Change" Field="@(d => d.price_change)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.price_change_class)"/>
+    <Column TableItem="Player" Title="Ownership" Field="@(d => d.current_price_change_info.current_selection_percentage)" Sortable="true" Filterable="true" Align="Align.Right">
+        <Template>
+            @string.Format("{0}%", context.current_price_change_info.current_selection_percentage)
+        </Template>
+    </Column>
+
+    <Column TableItem="Player" Title="Points per Million" Field="@(d => d.points_per_million)" Sortable="true" Filterable="true" Align="Align.Right" />
+    <Column TableItem="Player" Title="Weekly Price Change" Field="@(d => d.price_change)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.price_change_class)" />
     <Column TableItem="Player" Title="Sentiment" Field="@(d => d.sentiment)" Sortable="true" Filterable="true" Align="Align.Right" TableColumnClass="@(d=>d.sentiment_class)">
         <Template>
             @string.Format("{0}%", context.sentiment)
